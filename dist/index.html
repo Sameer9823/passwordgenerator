@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+<body class="bg-gradient-to-t bg-green-600 from-orange-500 text-white flex justify-center text-center my-36">
+    <div class=" w-96 pt-7 pl-11 pr-8 h-full bg-purple-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
+        <h1 class="my-6 text-lg text-center font-extrabold">Password Generator</h1>
+        <form class="text-center" id="passwordForm">
+            <input class="w-64 mb-5 px-2 rounded-sm text-black" type="text" id="generatedPassword" placeholder="Click on generate button" readonly>
+            <button class="w-28 px-2 bg-slate-50 text-black" type="button" onclick="generatePassword()">Generate</button>
+            <button class="w-44 px-2 bg-slate-50 text-black" type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+            <div class="py-4 text-white">Password length
+                <input  class="text-black px-4" type="number" id="passwordLength" min="6" value="8">
+            </div>
+
+            <div class="mt-5">Include uppercase letters
+                <input class="ml-10" type="checkbox" id="includeUppercase">
+            </div>
+            <div class="mt-5">Include lowercase letters
+                <input class="ml-10" type="checkbox" id="includeLowercase">
+            </div>
+            <div class="mt-5">Include numbers
+                <input class="ml-24" type="checkbox" id="includeNumbers">
+            </div>
+            <div class="mt-5 ">Include symbols
+                <input class="ml-24" type="checkbox" id="includeSymbols">
+            </div>
+        </form>
+        <div class="mt-7"></div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById("passwordLength").value;
+            const includeUppercase = document.getElementById("includeUppercase").checked;
+            const includeLowercase = document.getElementById("includeLowercase").checked;
+            const includeNumbers = document.getElementById("includeNumbers").checked;
+            const includeSymbols = document.getElementById("includeSymbols").checked;
+
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            let charset = '';
+            if (includeUppercase) charset += uppercaseChars;
+            if (includeLowercase) charset += lowercaseChars;
+            if (includeNumbers) charset += numberChars;
+            if (includeSymbols) charset += symbolChars;
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+
+            document.getElementById("generatedPassword").value = password;
+        }
+
+        function copyToClipboard() {
+            const passwordField = document.getElementById("generatedPassword");
+            passwordField.select();
+            document.execCommand("copy");
+            alert("successfully copied");
+        }
+    </script>
+</body>
+</html>
